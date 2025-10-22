@@ -1,0 +1,140 @@
+name: Feature Completed Workflow
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - release
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  feature-completed:
+    name: Feature Completed Tests and Merge
+    if: |
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/heads/feature/') &&
+      contains(github.event.head_commit.message, 'COMPLETED')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up authenticated remote
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Merge develop into feature branch
+        run: |
+          git fetch origin develop
+          git merge origin/develop || { echo "ERROR: Merge de develop a feature falló"; exit 1; }
+          git push origin HEAD
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v2
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run unit tests
+        id: tests
+        run: ./gradlew testDebugUnitTest --stacktrace
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: app/build/reports/tests/testDebugUnitTest/
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v4
+        if: always()
+        with:
+          report_paths: '**/build/test-results/testDebugUnitTest/TEST-*.xml'
+          detailed_summary: true
+          include_passed: true
+
+      - name: Notificar error en tests
+        if: ${{ failure() }}
+        run: |
+          echo "ERROR - Los tests no fueron exitosos. No se hará merge a develop."
+          exit 1
+
+      - name: Merge feature into develop
+        run: |
+          git fetch origin develop
+          git checkout -B develop origin/develop
+          git merge ${{ github.ref_name }}
+          git push origin develop
+
+      - name: Create Pull Request from develop to release
+        run: |
+          gh pr create \
+            --base release \
+            --head develop \
+            --title "Merge develop into release - Feature ${{ github.ref_name }}" \
+            --body "## Feature completado
+
+          Feature branch: \`${{ github.ref_name }}\`
+          Autor: @${{ github.actor }}
+          Commit: ${{ github.sha }}
+          
+          Tests ejecutados exitosamente ✅
+
+          Por favor revisar y aprobar para merge a release." || echo "PR ya existe o no se pudo crear"
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  release-to-main:
+    name: Merge Release to Main
+    if: |
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: release
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up authenticated remote
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Merge release into main
+        run: |
+          git fetch origin main
+          git checkout -B main origin/main
+          git merge release
+          git push origin main
