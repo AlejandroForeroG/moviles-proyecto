@@ -1,27 +1,17 @@
-name: Feature Completed Workflow
+name: Feature Completed Tests
 
 on:
   push:
     branches:
       - 'feature/**'
-      - main
-  pull_request:
-    types:
-      - closed
-    branches:
-      - release
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
   feature-completed:
-    name: Feature Completed Tests and Merge
+    name: Run tests when feature is COMPLETED
     if: |
       github.event_name == 'push' &&
       startsWith(github.ref, 'refs/heads/feature/') &&
-      contains(github.event.head_commit.message, 'COMPLETED')
+      contains(toLower(github.event.head_commit.message), 'completed')
     runs-on: ubuntu-latest
 
     steps:
@@ -29,21 +19,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Set up Git user
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Set up authenticated remote
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Merge develop into feature branch
-        run: |
-          git fetch origin develop
-          git merge origin/develop || { echo "ERROR: Merge de develop a feature falló"; exit 1; }
-          git push origin HEAD
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -77,64 +52,13 @@ jobs:
           detailed_summary: true
           include_passed: true
 
-      - name: Notificar error en tests
+      - name: Notify success
+        if: ${{ success() }}
+        run: |
+          echo "All tests passed for feature branch ${{ github.ref_name }} with commit ${{ github.sha }}"
+
+      - name: Notify failure
         if: ${{ failure() }}
         run: |
-          echo "ERROR - Los tests no fueron exitosos. No se hará merge a develop."
+          echo "ERROR - Tests failed for feature branch ${{ github.ref_name }}; see uploaded artifacts for details"
           exit 1
-
-      - name: Merge feature into develop
-        run: |
-          git fetch origin develop
-          git checkout -B develop origin/develop
-          git merge ${{ github.ref_name }}
-          git push origin develop
-
-      - name: Create Pull Request from develop to release
-        run: |
-          gh pr create \
-            --base release \
-            --head develop \
-            --title "Merge develop into release - Feature ${{ github.ref_name }}" \
-            --body "## Feature completado
-
-          Feature branch: \`${{ github.ref_name }}\`
-          Autor: @${{ github.actor }}
-          Commit: ${{ github.sha }}
-          
-          Tests ejecutados exitosamente ✅
-
-          Por favor revisar y aprobar para merge a release." || echo "PR ya existe o no se pudo crear"
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
-  release-to-main:
-    name: Merge Release to Main
-    if: |
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.merged == true &&
-      github.event.pull_request.base.ref == 'release'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout release branch
-        uses: actions/checkout@v4
-        with:
-          ref: release
-          fetch-depth: 0
-
-      - name: Set up Git user
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Set up authenticated remote
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Merge release into main
-        run: |
-          git fetch origin main
-          git checkout -B main origin/main
-          git merge release
-          git push origin main
