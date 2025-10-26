@@ -72,4 +72,24 @@ class UserTest {
         }
     }
 
+    @Test
+    fun clickingColeccionistaNavigatesToMain() {
+        ActivityScenario.launch(UserActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val btnColeccionista = activity.findViewById<android.view.View>(R.id.btnColeccionista)
+                btnColeccionista.performClick()
+            }
+
+            Thread.sleep(100)
+
+            scenario.onActivity { activity ->
+                val shadowActivity = shadowOf(activity)
+                val nextIntent = shadowActivity.peekNextStartedActivity()
+
+                assert(nextIntent != null)
+                assert(nextIntent.component?.className == MainActivity::class.java.name)
+            }
+        }
+    }
+
 }
