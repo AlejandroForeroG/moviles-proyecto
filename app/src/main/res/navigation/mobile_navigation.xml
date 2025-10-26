@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_album">
+
+    <fragment
+        android:id="@+id/navigation_album"
+        android:name="com.proyecto.uniandes.vynils.ui.album.view.AlbumFragment"
+        android:label="@string/title_album"
+        tools:layout="@layout/fragment_album">
+        <action
+            android:id="@+id/action_navigation_album_to_createAlbumFragment"
+            app:destination="@id/createAlbumFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createAlbumFragment"
+        android:name="com.proyecto.uniandes.vynils.ui.album.create.CreateAlbumFragment"
+        android:label="Crear Álbum"
+        tools:layout="@layout/fragment_create_album" />
+</navigation>
