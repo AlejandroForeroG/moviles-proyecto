@@ -24,9 +24,7 @@ import javax.inject.Inject
 class UserInstrumentedTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
-
     @Inject lateinit var repository: UserRepository
-
     private lateinit var scenario: ActivityScenario<UserActivity>
 
     @Before
