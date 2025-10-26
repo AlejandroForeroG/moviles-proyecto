@@ -51,4 +51,25 @@ class UserTest {
             }
         }
     }
+
+    @Test
+    fun clickingUsuarioNavigatesToMain() {
+        ActivityScenario.launch(UserActivity::class.java).use { scenario ->
+            scenario.onActivity { activity ->
+                val btnUsuario = activity.findViewById<android.view.View>(R.id.btnUsuario)
+                btnUsuario.performClick()
+            }
+
+            Thread.sleep(100)
+
+            scenario.onActivity { activity ->
+                val shadowActivity = shadowOf(activity)
+                val nextIntent = shadowActivity.peekNextStartedActivity()
+
+                assert(nextIntent != null)
+                assert(nextIntent.component?.className == MainActivity::class.java.name)
+            }
+        }
+    }
+
 }

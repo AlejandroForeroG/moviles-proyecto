@@ -49,4 +49,10 @@ class UserInstrumentedTest {
         onView(withId(R.id.btnUsuario)).check(matches(isDisplayed()))
         onView(withId(R.id.btnColeccionista)).check(matches(isDisplayed()))
     }
+
+    @Test
+    fun clickingUsuarioNavigatesToMain() {
+        onView(withId(R.id.btnUsuario)).perform(click())
+        intended(hasComponent(MainActivity::class.java.name))
+    }
 }
