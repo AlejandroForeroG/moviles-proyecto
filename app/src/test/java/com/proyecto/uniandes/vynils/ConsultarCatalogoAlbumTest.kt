@@ -24,7 +24,7 @@ import javax.inject.Inject
 @HiltAndroidTest
 @RunWith(RobolectricTestRunner::class)
 @Config(application = HiltTestApplication::class, sdk = [28])
-class AlbumTest {
+class ConsultarCatalogoAlbumTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 

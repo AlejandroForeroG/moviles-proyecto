@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.proyecto.uniandes.vynils.R
-import com.proyecto.uniandes.vynils.data.model.Album
+import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import coil.load
 
-class AlbumAdapter(private val onClick: ((Album) -> Unit)? = null) : ListAdapter<Album, AlbumAdapter.ViewHolder>(DiffCallback) {
+class AlbumAdapter(private val onClick: ((ResponseAlbum) -> Unit)? = null) : ListAdapter<ResponseAlbum, AlbumAdapter.ViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
@@ -23,11 +23,11 @@ class AlbumAdapter(private val onClick: ((Album) -> Unit)? = null) : ListAdapter
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(itemView: View, private val onClick: ((Album) -> Unit)?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, private val onClick: ((ResponseAlbum) -> Unit)?) : RecyclerView.ViewHolder(itemView) {
         private val imgCover: ImageView = itemView.findViewById(R.id.img_cover)
         private val tvName: TextView = itemView.findViewById(R.id.tv_name)
 
-        fun bind(album: Album) {
+        fun bind(album: ResponseAlbum) {
             tvName.text = album.name
             imgCover.load(album.cover) {
                 placeholder(R.drawable.ic_launcher_foreground)
@@ -41,9 +41,9 @@ class AlbumAdapter(private val onClick: ((Album) -> Unit)? = null) : ListAdapter
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Album>() {
-            override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: Album, newItem: Album): Boolean = oldItem == newItem
+        private val DiffCallback = object : DiffUtil.ItemCallback<ResponseAlbum>() {
+            override fun areItemsTheSame(oldItem: ResponseAlbum, newItem: ResponseAlbum): Boolean = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: ResponseAlbum, newItem: ResponseAlbum): Boolean = oldItem == newItem
         }
     }
 }

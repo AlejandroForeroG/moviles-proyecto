@@ -21,7 +21,7 @@ import org.junit.Test
 import javax.inject.Inject
 
 @HiltAndroidTest
-class AlbumInstrumentedTest {
+class ConsultarCatalogoAlbumInstrumentedTest {
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
 

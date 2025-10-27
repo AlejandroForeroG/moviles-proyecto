@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:visibility="gone"
-        android:contentDescription="@string/change_user"
+        android:contentDescription="@string/new_album"
         app:srcCompat="@drawable/add_24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

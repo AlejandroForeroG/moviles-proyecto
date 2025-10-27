@@ -5,10 +5,19 @@
     <string name="title_album">Álbumes</string>
     <string name="selecciona_tu_tipo_de_usuario">Por favor selecciona tu tipo de usuario</string>
     <string name="coleccionista">Coleccionista</string>
-    <string name="o">ó</string>
     <string name="usuario">Usuario</string>
     <string name="logo">logo</string>
     <string name="change_user">Cambiar usuario</string>
+    <string name="new_album">Nuevo Album</string>
     <string name="album">album</string>
     <string name="cargando">Cargando...</string>
+    <string name="nombre">Nombre</string>
+    <string name="url_de_la_imagen_del_album">Url de la imagen del álbum</string>
+    <string name="fecha_de_salida">Fecha de salida</string>
+    <string name="descripcion">Descripción</string>
+    <string name="genero">Genero</string>
+    <string name="disquera">Disquera</string>
+    <string name="crear_un_album">Crear un álbum</string>
+    <string name="dale_tu_propio_estilo">Dale tu propio estilo</string>
+    <string name="cover_preview">Cover Preview</string>
 </resources>

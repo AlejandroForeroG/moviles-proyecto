@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.proyecto.uniandes.vynils.data.local.entity.UserEntity
-import com.proyecto.uniandes.vynils.data.model.Album
+import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.domain.usecase.album.GetAllAlbumUseCase
 import com.proyecto.uniandes.vynils.domain.usecase.user.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,8 +19,8 @@ class AlbumViewModel @Inject constructor(private val getAllAlbumUseCase: GetAllA
     val user: LiveData<UserEntity?>
         get() = _user
 
-    private val _albums = MutableLiveData<List<Album>>()
-    val albums: LiveData<List<Album>> = _albums
+    private val _albums = MutableLiveData<List<ResponseAlbum>>()
+    val albums: LiveData<List<ResponseAlbum>> = _albums
 
     init {
         getUser()

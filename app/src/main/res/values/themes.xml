@@ -24,7 +24,7 @@
         <item name="colorSurfaceVariant">@color/surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
         <item name="colorSurfaceContainer">@android:color/white</item>
-        <item name="colorSurfaceContainerHigh">@android:color/white</item>
+        <item name="colorSurfaceContainerLow">@android:color/white</item>
         <item name="colorOutline">@color/outline</item>
 
         <item name="titleTextColor">@color/primary</item>
