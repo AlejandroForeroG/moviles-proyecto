@@ -20,4 +20,7 @@
     <string name="crear_un_album">Crear un álbum</string>
     <string name="dale_tu_propio_estilo">Dale tu propio estilo</string>
     <string name="cover_preview">Cover Preview</string>
+
+    <string name="crear">Crear</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

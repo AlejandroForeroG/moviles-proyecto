@@ -57,6 +57,7 @@
                 android:hint="@string/nombre">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nombreEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -70,6 +71,7 @@
                 android:hint="@string/url_de_la_imagen_del_album">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/urlCoverEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textUri" />
@@ -101,6 +103,7 @@
                 android:hint="@string/descripcion">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/descriptionEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|start"
@@ -121,9 +124,11 @@
                 android:hint="@string/genero">
 
                 <AutoCompleteTextView
+                    android:id="@+id/generoAutoComplete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
+                    android:hint="@string/genero"
                     app:simpleItems="@array/genero_items"
                     android:labelFor="@id/generoTextView"
                     />
@@ -139,9 +144,11 @@
                 android:hint="@string/disquera">
 
                 <AutoCompleteTextView
+                    android:id="@+id/disqueraAutoComplete"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
+                    android:hint="@string/disquera"
                     app:simpleItems="@array/disquera_items"
                     />
 
@@ -159,7 +166,7 @@
                     android:id="@+id/btnCrear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Crear"
+                    android:text="@string/crear"
                     android:textAllCaps="false" />
 
                 <View
@@ -172,7 +179,7 @@
                     style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelar"
+                    android:text="@string/cancelar"
                     android:textAllCaps="false" />
 
             </LinearLayout>
