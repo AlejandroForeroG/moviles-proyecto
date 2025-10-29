@@ -14,6 +14,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.proyecto.uniandes.vynils.R
 import com.proyecto.uniandes.vynils.data.model.RequestAlbum
 import com.proyecto.uniandes.vynils.databinding.FragmentCreateAlbumBinding
+import com.proyecto.uniandes.vynils.utils.showErrorServer
+import com.proyecto.uniandes.vynils.utils.toIso8601UtcFromDdMMyyyy
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -52,8 +54,11 @@ class CreateAlbumFragment: Fragment() {
             if (it) {
                 findNavController().navigateUp()
             } else {
+                binding.scrollView.visibility = View.VISIBLE
                 binding.loadingPanel.root.visibility = View.GONE
-                cleanForm()
+                showErrorServer(requireContext()) {
+                    cleanForm()
+                }
             }
         }
     }
@@ -211,7 +216,7 @@ class CreateAlbumFragment: Fragment() {
                 RequestAlbum(
                     name = name,
                     cover = urlCover,
-                    releaseDate = releaseDate,
+                    releaseDate = releaseDate.toIso8601UtcFromDdMMyyyy(),
                     description = description,
                     genre = genre,
                     recordLabel = recordLabel
