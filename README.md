@@ -14,6 +14,8 @@ Para reemplazar la url del API, modifica la constante `BASE_URL` en el archivo `
 buildConfigField("String", "BASE_URL", "\"https://nueva-url-del-api.com"")
 ``` 
 
+*Recomendamos utilizar emuladores Pixel o dispositivos físicos para pruebas, ya que algunos emuladores genéricos pueden presentar problemas de compatibilidad.*
+
 ### Clean Architecture con MVVM
 
 El proyecto está estructurado en capas claramente definidas:
@@ -123,7 +125,7 @@ class UserViewModel @Inject constructor(
 }
 ```
 
-## 💉 Hilt - Dependency Injection
+## Hilt - Dependency Injection
 
 **Hilt** es el framework de inyección de dependencias recomendado por Google para Android. Está construido sobre Dagger y proporciona una forma estándar de implementar DI en aplicaciones Android.
 
@@ -192,7 +194,7 @@ class UserViewModel @Inject constructor(
 ) : ViewModel()
 ```
 
-## 🗄️ Room - Persistencia de Datos
+## Room - Persistencia de Datos
 
 **Room** es una biblioteca de persistencia que proporciona una capa de abstracción sobre SQLite, permitiendo un acceso fluido a la base de datos mientras aprovecha todo el poder de SQLite.
 
@@ -323,10 +325,10 @@ class UserTest {
 - **Espresso**: Testing instrumentado
 - **Robolectric**: Testing unitario con contexto Android
 
-## 📦 Configuración del Proyecto
+## Configuración del Proyecto
 
 ### Requisitos
-- JDK 17
+- JDK 21
 - Gradle 8.0+
 - Android SDK 34
 
@@ -349,7 +351,7 @@ git clone https://github.com/AlejandroForeroG/moviles-proyecto
 ./gradlew installDebug
 ```
 
-## 🧪 Ejecutar Tests
+## Ejecutar Tests
 
 ### Tests Unitarios (Robolectric)
 ```bash
