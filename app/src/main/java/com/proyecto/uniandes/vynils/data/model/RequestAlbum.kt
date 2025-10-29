@@ -1,10 +1,12 @@
 package com.proyecto.uniandes.vynils.data.model
 
+import kotlinx.serialization.SerialName
+
 data class RequestAlbum(
-    val name: String,
-    val cover: String,
-    val releaseDate: String,
-    val description: String,
-    val genre: String,
-    val recordLabel: String
+    @SerialName("name") val name: String,
+    @SerialName("cover") val cover: String,
+    @SerialName("releaseDate") val releaseDate: String,
+    @SerialName("description") val description: String,
+    @SerialName("genre") val genre: String,
+    @SerialName("recordLabel") val recordLabel: String
 )
