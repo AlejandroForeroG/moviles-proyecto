@@ -75,6 +75,51 @@ class CreateAlbumInstrumentedTest {
         onView(withId(R.id.disqueraTextView)).check(matches(hasTextInputLayoutErrorText("La disquera es obligatoria")))
     }
 
+    @Test
+    fun createAlbumAddsAlbumToListAndShowsCoverPreview() {
+        runBlocking { repository.saveUser("COLECCIONISTA") }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+
+        Thread.sleep(500)
+
+        // Open create album screen
+        onView(withId(R.id.fab_add_album)).perform(click())
+
+        Thread.sleep(300)
+
+        val albumName = "Espresso Test Album"
+        val description = "Descripción de prueba"
+        val releaseDate = "01/01/2020"
+        val coverUrl = "https://i.pinimg.com/564x/aa/5f/ed/aa5fed7fac61cc8f41d1e79db917a7cd.jpg"
+        val genero = "Rock"
+        val disquera = "Sony"
+
+        // Fill the form
+        onView(withId(R.id.nombreEditText)).perform(scrollTo()).perform(replaceText(albumName), closeSoftKeyboard())
+        onView(withId(R.id.descriptionEditText)).perform(scrollTo()).perform(replaceText(description), closeSoftKeyboard())
+        onView(withId(R.id.releaseDateInputEditText)).perform(scrollTo()).perform(replaceText(releaseDate), closeSoftKeyboard())
+        onView(withId(R.id.urlCoverEditText)).perform(scrollTo()).perform(replaceText(coverUrl), closeSoftKeyboard())
+
+        // wait for cover preview to update (coil loads image async)
+        Thread.sleep(800)
+
+        // The cover preview should be visible
+        onView(withId(R.id.coverPreviewImageView)).check(matches(isDisplayed()))
+
+        // Fill dropdowns (AutoCompleteTextView)
+        onView(withId(R.id.generoAutoComplete)).perform(scrollTo()).perform(replaceText(genero), closeSoftKeyboard())
+        onView(withId(R.id.disqueraAutoComplete)).perform(scrollTo()).perform(replaceText(disquera), closeSoftKeyboard())
+
+        // Create album
+        onView(withId(R.id.btnCrear)).perform(scrollTo()).perform(click())
+
+        // Wait for navigation back and for list update
+        Thread.sleep(1000)
+
+        // Now the new album name should be visible in the album list
+        onView(withText(albumName)).check(matches(isDisplayed()))
+    }
+
     // Helper matcher to assert TextInputLayout's error text
     private fun hasTextInputLayoutErrorText(expectedErrorText: String): Matcher<View> {
         return object : TypeSafeMatcher<View>() {
