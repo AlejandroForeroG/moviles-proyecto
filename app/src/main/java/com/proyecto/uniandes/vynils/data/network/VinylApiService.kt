@@ -6,7 +6,6 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 interface VinylApiService {
     @GET("/albums")
@@ -14,7 +13,4 @@ interface VinylApiService {
 
     @POST("/albums")
     suspend fun createAlbum(@Body album: RequestAlbum): Response<ResponseAlbum>
-
-    @GET("/albums/{id}")
-    suspend fun getAlbumById(@Path("id") id: Int): Response<ResponseAlbum>
 }

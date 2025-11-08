@@ -9,14 +9,7 @@
     <string name="logo">logo</string>
     <string name="change_user">Cambiar usuario</string>
     <string name="new_album">Nuevo Album</string>
-    <string name="album_cover">Album Cover</string>
-    <string name="album_name">Nombre del album</string>
-    <string name="release_date">Release Date</string>
-    <string name="genre">Género músical</string>
-    <string name="description">Descripción</string>
-    <string name="producer">Productor</string>
     <string name="album">album</string>
-    <string name="back">Volver</string>
     <string name="cargando">Cargando...</string>
     <string name="nombre">Nombre</string>
     <string name="url_de_la_imagen_del_album">Url de la imagen del álbum</string>

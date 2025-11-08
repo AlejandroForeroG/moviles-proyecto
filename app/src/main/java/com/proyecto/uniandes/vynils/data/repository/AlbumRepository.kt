@@ -11,6 +11,4 @@ open class AlbumRepository @Inject constructor(private val api: VinylApiService)
     open suspend fun createAlbum(album: RequestAlbum): Result<ResponseAlbum> = safeApiCall {
         api.createAlbum(album)
     }
-
-    open suspend fun getAlbumById(albumId: Int): Result<ResponseAlbum> = safeApiCall { api.getAlbumById(albumId) }
 }
