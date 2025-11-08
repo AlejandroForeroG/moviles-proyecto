@@ -71,7 +71,10 @@ class AlbumFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        albumAdapter = AlbumAdapter { }
+        albumAdapter = AlbumAdapter { album ->
+            val action = AlbumFragmentDirections.actionNavigationAlbumToAlbumDetailFragment(album.id)
+            findNavController().navigate(action)
+        }
 
         binding.rvAlbums.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
