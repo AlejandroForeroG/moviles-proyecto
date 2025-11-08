@@ -33,4 +33,11 @@
             android:name="albumId"
             app:argType="integer" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_artist"
+        android:name="com.proyecto.uniandes.vynils.ui.artist.view.ArtistFragment"
+        android:label="@string/title_artist"
+        tools:layout="@layout/fragment_artist" />
+
 </navigation>

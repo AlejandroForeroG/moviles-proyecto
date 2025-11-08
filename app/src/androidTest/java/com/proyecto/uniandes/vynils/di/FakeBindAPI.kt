@@ -2,6 +2,7 @@ package com.proyecto.uniandes.vynils.di
 
 import com.proyecto.uniandes.vynils.data.model.RequestAlbum
 import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
+import com.proyecto.uniandes.vynils.data.model.ResponseArtist
 import com.proyecto.uniandes.vynils.data.network.VinylApiService
 import dagger.Module
 import dagger.Provides
@@ -15,8 +16,13 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [NetworkModule::class]
 )
-object TestAlbumModule {
 
+object FakeBindAPI {
+    private val artists = listOf(
+        ResponseArtist(id = 1, name = "Shakira", image = "https://example.com/shakira.jpg"),
+        ResponseArtist(id = 2, name = "Juanes", image = "https://example.com/juanes.jpg"),
+        ResponseArtist(id = 3, name = "Carlos Vives", image = "https://example.com/carlosvives.jpg")
+    )
     private val albums = mutableListOf(
         ResponseAlbum(
             id = 1,
@@ -79,6 +85,10 @@ object TestAlbumModule {
                     @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
                     Response.error(404, null)
                 }
+            }
+
+            override suspend fun getAllArtist(): Response<List<ResponseArtist>> {
+                return Response.success(artists)
             }
         }
     }

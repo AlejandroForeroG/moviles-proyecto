@@ -30,4 +30,7 @@
 
     <string name="crear">Crear</string>
     <string name="cancelar">Cancelar</string>
+
+    <string name="title_artist">Artistas</string>
+    <string name="new_artist">Nuevo Artista</string>
 </resources>

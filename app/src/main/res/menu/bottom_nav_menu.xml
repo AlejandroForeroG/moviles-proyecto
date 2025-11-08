@@ -6,4 +6,8 @@
         android:icon="@drawable/baseline_album_24"
         android:title="@string/title_album" />
 
+    <item
+        android:id="@+id/navigation_artist"
+        android:icon="@drawable/outline_groups_24"
+        android:title="@string/title_artist" />
 </menu>
