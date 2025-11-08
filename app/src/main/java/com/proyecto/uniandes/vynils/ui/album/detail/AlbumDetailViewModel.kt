@@ -1,4 +1,4 @@
-package com.proyecto.uniandes.vynils.ui.album.view
+package com.proyecto.uniandes.vynils.ui.album.detail
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
