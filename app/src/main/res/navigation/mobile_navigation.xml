@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_album_to_createAlbumFragment"
             app:destination="@id/createAlbumFragment" />
+        <action
+            android:id="@+id/action_navigation_album_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
     </fragment>
 
     <fragment
@@ -20,4 +23,21 @@
         android:name="com.proyecto.uniandes.vynils.ui.album.create.CreateAlbumFragment"
         android:label="Crear Álbum"
         tools:layout="@layout/fragment_create_album" />
+
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.proyecto.uniandes.vynils.ui.album.detail.AlbumDetailFragment"
+        android:label="Detalle del Álbum"
+        tools:layout="@layout/fragment_album_detail">
+        <argument
+            android:name="albumId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_artist"
+        android:name="com.proyecto.uniandes.vynils.ui.artist.view.ArtistFragment"
+        android:label="@string/title_artist"
+        tools:layout="@layout/fragment_artist" />
+
 </navigation>
