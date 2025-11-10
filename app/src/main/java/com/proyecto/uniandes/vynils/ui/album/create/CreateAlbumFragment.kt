@@ -210,7 +210,7 @@ class CreateAlbumFragment: Fragment() {
 
             scrollView.visibility = View.GONE
             loadingPanel.root.visibility = View.VISIBLE
-            loadingPanel.message.text = "Creando album..."
+            loadingPanel.message.text = getString(R.string.creando_artistas)
 
             viewModel.createAlbum(
                 RequestAlbum(

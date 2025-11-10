@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.proyecto.uniandes.vynils.R
 import com.proyecto.uniandes.vynils.data.local.entity.UserEntity
@@ -18,10 +17,6 @@ class ArtistFragment : Fragment() {
 
     private lateinit var binding: FragmentArtistBinding
     private val viewModel: ArtistViewModel by viewModels()
-    private val navHostFragment by lazy {
-        requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-    }
-
     private lateinit var artistAdapter: ArtistAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -37,7 +32,7 @@ class ArtistFragment : Fragment() {
 
     private fun setupView() {
         with(binding) {
-            loadingPanel.message.text = "Cargando artistas..."
+            loadingPanel.message.text = getString(R.string.cargando_artistas)
         }
     }
 
@@ -59,7 +54,7 @@ class ArtistFragment : Fragment() {
                 } else {
                     rvArtists.visibility = View.GONE
                     loadingPanel.root.visibility = View.VISIBLE
-                    loadingPanel.message.text = "No hay albums disponibles"
+                    loadingPanel.message.text = getString(R.string.no_hay_artistas_disponibles)
                 }
             }
         }

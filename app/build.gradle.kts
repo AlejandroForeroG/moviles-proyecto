@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.androidx.junit.ktx)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
     implementation(libs.hilt.android)

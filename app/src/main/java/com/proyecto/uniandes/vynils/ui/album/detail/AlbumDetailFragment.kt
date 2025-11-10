@@ -47,7 +47,7 @@ class AlbumDetailFragment : Fragment() {
 
     private fun setupView() {
         with(binding) {
-            loadingPanel.message.text = "Cargando detalles del álbum..."
+            loadingPanel.message.text = getString(R.string.cargando_detalles_del_album)
             nsvContent.visibility = View.GONE
             loadingPanel.root.visibility = View.VISIBLE
         }

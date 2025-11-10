@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import com.proyecto.uniandes.vynils.data.local.database.VynilsDatabase

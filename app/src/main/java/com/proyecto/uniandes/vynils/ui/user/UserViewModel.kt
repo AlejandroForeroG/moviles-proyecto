@@ -14,11 +14,11 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(private val getUserUseCase: GetUserUseCase, private val saveUserUseCase: SaveUserUseCase): ViewModel() {
 
-    val _gotoMain: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _gotoMain: MutableLiveData<Boolean> = MutableLiveData(false)
     val gotoMain: LiveData<Boolean>
         get() = _gotoMain
 
-    val _user = MutableLiveData<UserEntity?>()
+    private val _user = MutableLiveData<UserEntity?>()
     val user: LiveData<UserEntity?>
         get() = _user
 

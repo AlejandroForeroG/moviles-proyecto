@@ -42,7 +42,7 @@ class AlbumFragment : Fragment() {
                 val action = AlbumFragmentDirections.actionNavigationAlbumToCreateAlbumFragment()
                 navHostFragment.findNavController().navigate(action)
             }
-            loadingPanel.message.text = "Cargando albums..."
+            loadingPanel.message.text = getString(R.string.cargando_albums)
         }
     }
 
@@ -64,7 +64,7 @@ class AlbumFragment : Fragment() {
                 } else {
                     rvAlbums.visibility = View.GONE
                     loadingPanel.root.visibility = View.VISIBLE
-                    loadingPanel.message.text = "No hay albums disponibles"
+                    loadingPanel.message.text = getString(R.string.no_hay_albums_disponibles)
                 }
             }
         }

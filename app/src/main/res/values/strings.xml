@@ -12,12 +12,11 @@
     <string name="album_cover">Album Cover</string>
     <string name="album_name">Nombre del album</string>
     <string name="release_date">Release Date</string>
-    <string name="genre">Género músical</string>
     <string name="description">Descripción</string>
     <string name="producer">Productor</string>
     <string name="album">album</string>
     <string name="back">Volver</string>
-    <string name="cargando">Cargando...</string>
+    <string name="cargando">Cargando…</string>
     <string name="nombre">Nombre</string>
     <string name="url_de_la_imagen_del_album">Url de la imagen del álbum</string>
     <string name="fecha_de_salida">Fecha de salida</string>
@@ -33,4 +32,11 @@
 
     <string name="title_artist">Artistas</string>
     <string name="new_artist">Nuevo Artista</string>
+    <string name="spacer">|</string>
+    <string name="cargando_detalles_del_album">Cargando detalles del álbum…</string>
+    <string name="cargando_albums">Cargando albums…</string>
+    <string name="no_hay_albums_disponibles">No hay albums disponibles</string>
+    <string name="cargando_artistas">Cargando artistas…</string>
+    <string name="no_hay_artistas_disponibles">No hay artistas disponibles</string>
+    <string name="creando_artistas">Creando artistas…</string>
 </resources>
