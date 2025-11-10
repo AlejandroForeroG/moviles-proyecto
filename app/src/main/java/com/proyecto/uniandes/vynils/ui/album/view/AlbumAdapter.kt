@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.proyecto.uniandes.vynils.R
 import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import coil.load
+import coil.request.CachePolicy
 
 class AlbumAdapter(private val onClick: ((ResponseAlbum) -> Unit)? = null) : ListAdapter<ResponseAlbum, AlbumAdapter.ViewHolder>(DiffCallback) {
 
@@ -32,6 +33,8 @@ class AlbumAdapter(private val onClick: ((ResponseAlbum) -> Unit)? = null) : Lis
             imgCover.load(album.cover) {
                 placeholder(R.drawable.ic_launcher_foreground)
                 error(R.drawable.ic_launcher_foreground)
+                memoryCachePolicy(CachePolicy.ENABLED)
+
             }
 
             itemView.setOnClickListener {

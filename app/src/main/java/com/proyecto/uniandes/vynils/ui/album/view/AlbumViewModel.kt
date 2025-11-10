@@ -10,7 +10,9 @@ import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.domain.usecase.album.GetAllAlbumUseCase
 import com.proyecto.uniandes.vynils.domain.usecase.user.GetUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,14 +36,16 @@ class AlbumViewModel @Inject constructor(private val getAllAlbumUseCase: GetAllA
 
     fun getAllAlbums() {
         viewModelScope.launch {
-            val result = getAllAlbumUseCase()
-            result.fold(onSuccess = { list ->
-                _albums.postValue(list)
-                Log.d("AlbumViewModel", "Albums loaded: ${list.size}")
-            }, onFailure = { ex ->
-                Log.e("AlbumViewModel", "Error loading albums", ex)
-                _albums.postValue(emptyList())
-            })
+            withContext(Dispatchers.IO) {
+                val result = getAllAlbumUseCase()
+                result.fold(onSuccess = { list ->
+                    _albums.postValue(list)
+                    Log.d("AlbumViewModel", "Albums loaded: ${list.size}")
+                }, onFailure = { ex ->
+                    Log.e("AlbumViewModel", "Error loading albums", ex)
+                    _albums.postValue(emptyList())
+                })
+            }
         }
     }
 

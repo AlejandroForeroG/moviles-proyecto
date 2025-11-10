@@ -8,7 +8,9 @@ import com.proyecto.uniandes.vynils.data.local.entity.UserEntity
 import com.proyecto.uniandes.vynils.domain.usecase.user.GetUserUseCase
 import com.proyecto.uniandes.vynils.domain.usecase.user.SaveUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +32,10 @@ class UserViewModel @Inject constructor(private val getUserUseCase: GetUserUseCa
 
     fun saveUser(userType: String) {
         viewModelScope.launch {
-            saveUserUseCase(userType)
-            _gotoMain.postValue(true)
+            withContext(Dispatchers.IO) {
+                saveUserUseCase(userType)
+                _gotoMain.postValue(true)
+            }
         }
     }
 }
