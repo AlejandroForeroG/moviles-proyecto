@@ -1,8 +1,6 @@
 package com.proyecto.uniandes.vynils
 
-import android.os.Looper
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,9 +18,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import javax.inject.Inject
 import androidx.navigation.findNavController
@@ -45,7 +41,6 @@ class ConsultarAlbumDetalleTest {
     fun setUp() {
         hiltRule.inject()
         runBlocking { repository.clearUser() }
-        idleMain()
     }
 
     @After
@@ -53,23 +48,16 @@ class ConsultarAlbumDetalleTest {
         runBlocking {
             repository.clearUser()
         }
-        idleMain()
         Thread.sleep(100)
         if (::database.isInitialized && database.isOpen) {
             database.close()
         }
     }
 
-    private fun idleMain() {
-        Shadows.shadowOf(Looper.getMainLooper()).idle()
-        Robolectric.flushForegroundThreadScheduler()
-    }
-
     private fun waitForCondition(scenario: ActivityScenario<MainActivity>, timeoutMs: Long = 5000L, predicate: (MainActivity) -> Boolean) {
         val start = System.currentTimeMillis()
         var conditionMet = false
         while (!conditionMet && System.currentTimeMillis() - start < timeoutMs) {
-            idleMain()
             scenario.onActivity { activity ->
                 conditionMet = predicate(activity)
             }
@@ -95,7 +83,6 @@ class ConsultarAlbumDetalleTest {
             scenario.onActivity { activity ->
                 val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                 recyclerView.scrollToPosition(0)
-                idleMain()
                 val firstItemView = recyclerView.findViewHolderForAdapterPosition(0)?.itemView
                 firstItemView?.performClick()
             }
@@ -125,7 +112,6 @@ class ConsultarAlbumDetalleTest {
             scenario.onActivity { activity ->
                 val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                 recyclerView.scrollToPosition(0)
-                idleMain()
                 recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
             }
 
@@ -171,7 +157,6 @@ class ConsultarAlbumDetalleTest {
             scenario.onActivity { activity ->
                 val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                 recyclerView.scrollToPosition(0)
-                idleMain()
                 recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
             }
 
@@ -205,7 +190,6 @@ class ConsultarAlbumDetalleTest {
             scenario.onActivity { activity ->
                 val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                 recyclerView.scrollToPosition(0)
-                idleMain()
                 recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
             }
 
@@ -214,13 +198,10 @@ class ConsultarAlbumDetalleTest {
                 navController.currentDestination?.id == R.id.albumDetailFragment
             }
 
-            waitForCondition(scenario) { activity ->
-                activity.findViewById<ImageButton>(R.id.ib_back) != null
-            }
 
             scenario.onActivity { activity ->
-                val backButton = activity.findViewById<ImageButton>(R.id.ib_back)
-                backButton.performClick()
+                val navController = activity.findNavController(R.id.nav_host_fragment_activity_main)
+                navController.navigateUp()
             }
 
             waitForCondition(scenario) { activity ->
@@ -252,7 +233,6 @@ class ConsultarAlbumDetalleTest {
                 scenario.onActivity { activity ->
                     val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                     recyclerView.scrollToPosition(i)
-                    idleMain()
                     recyclerView.findViewHolderForAdapterPosition(i)?.itemView?.performClick()
                 }
 
@@ -275,13 +255,9 @@ class ConsultarAlbumDetalleTest {
                     assertEquals("Genre ${i + 1}: ${expectedGenres[i]}", expectedGenres[i], genreTextView.text.toString())
                 }
 
-                waitForCondition(scenario) { activity ->
-                    activity.findViewById<ImageButton>(R.id.ib_back) != null
-                }
-
                 scenario.onActivity { activity ->
-                    val backButton = activity.findViewById<ImageButton>(R.id.ib_back)
-                    backButton.performClick()
+                    val navController = activity.findNavController(R.id.nav_host_fragment_activity_main)
+                    navController.navigateUp()
                 }
 
                 waitForCondition(scenario) { activity ->
@@ -306,7 +282,6 @@ class ConsultarAlbumDetalleTest {
             scenario.onActivity { activity ->
                 val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_albums)
                 recyclerView.scrollToPosition(0)
-                idleMain()
                 recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
             }
 

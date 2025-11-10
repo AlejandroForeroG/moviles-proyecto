@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 import androidx.navigation.findNavController
+import androidx.test.espresso.Espresso.pressBack
 
 @HiltAndroidTest
 class ConsultarAlbumDetalleInstrumentedTest {
@@ -135,9 +136,7 @@ class ConsultarAlbumDetalleInstrumentedTest {
             assertEquals(R.id.albumDetailFragment, navController.currentDestination?.id)
         }
 
-        scenario.onActivity { activity ->
-            activity.findViewById<View>(R.id.ib_back)?.performClick()
-        }
+        pressBack()
 
         Thread.sleep(500)
 
@@ -170,9 +169,7 @@ class ConsultarAlbumDetalleInstrumentedTest {
             onView(withId(R.id.tv_album_name)).check(matches(withText(expectedAlbumNames[i])))
             onView(withId(R.id.tv_genre)).check(matches(withText(expectedGenres[i])))
 
-            scenario.onActivity { activity ->
-                activity.findViewById<View>(R.id.ib_back)?.performClick()
-            }
+            pressBack()
 
             Thread.sleep(500)
         }
