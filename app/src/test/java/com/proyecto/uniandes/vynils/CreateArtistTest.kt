@@ -141,7 +141,6 @@ class CreateArtistTest {
                     View.MeasureSpec.makeMeasureSpec(1920, View.MeasureSpec.AT_MOST)
                 )
                 recyclerView.layout(0, 0, 1080, 1920)
-
                 val lastPosition = (itemCount - 1).coerceAtLeast(0)
                 val holder = recyclerView.findViewHolderForAdapterPosition(lastPosition)
                 if (holder != null) {
