@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.proyecto.uniandes.vynils.R
 import com.proyecto.uniandes.vynils.data.local.entity.UserEntity
@@ -32,6 +33,10 @@ class ArtistFragment : Fragment() {
 
     private fun setupView() {
         with(binding) {
+            fabAddArtist.setOnClickListener {
+                val action = ArtistFragmentDirections.actionNavigationArtistToCreateArtistFragment()
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(action)
+            }
             loadingPanel.message.text = getString(R.string.cargando_artistas)
         }
     }
@@ -61,7 +66,7 @@ class ArtistFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        artistAdapter = ArtistAdapter { }
+        artistAdapter = ArtistAdapter {}
 
         binding.rvArtists.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
