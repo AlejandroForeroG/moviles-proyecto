@@ -38,4 +38,8 @@
     <string name="cargando_artistas">Cargando artistas…</string>
     <string name="no_hay_artistas_disponibles">No hay artistas disponibles</string>
     <string name="creando_artistas">Creando artistas…</string>
+    <string name="crear_un_artista">Crear un artista</string>
+    <string name="url_de_la_imagen_del_artista">Url de la imagen del artista</string>
+    <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
+    <string name="image_preview">Image Preview</string>
 </resources>
