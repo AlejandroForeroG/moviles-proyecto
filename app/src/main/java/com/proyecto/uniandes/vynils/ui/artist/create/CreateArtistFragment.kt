@@ -1,4 +1,4 @@
-package com.proyecto.uniandes.vynils.ui.album.create
+package com.proyecto.uniandes.vynils.ui.artist.create
 
 import android.os.Bundle
 import android.util.Patterns
@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.proyecto.uniandes.vynils.R
-import com.proyecto.uniandes.vynils.data.model.RequestAlbum
-import com.proyecto.uniandes.vynils.databinding.FragmentCreateAlbumBinding
+import com.proyecto.uniandes.vynils.data.model.RequestArtist
+import com.proyecto.uniandes.vynils.databinding.FragmentCreateArtistBinding
 import com.proyecto.uniandes.vynils.utils.showErrorServer
 import com.proyecto.uniandes.vynils.utils.toIso8601UtcFromDdMMyyyy
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,10 +23,10 @@ import java.util.Locale
 import java.util.TimeZone
 
 @AndroidEntryPoint
-class CreateAlbumFragment: Fragment() {
+class CreateArtistFragment: Fragment() {
 
-    private lateinit var binding: FragmentCreateAlbumBinding
-    private val viewModel: CreateAlbumViewModel by viewModels()
+    private lateinit var binding: FragmentCreateArtistBinding
+    private val viewModel: CreateArtistViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,7 +34,7 @@ class CreateAlbumFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentCreateAlbumBinding.inflate(inflater, container, false)
+        binding = FragmentCreateArtistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         setupView()
@@ -65,17 +65,17 @@ class CreateAlbumFragment: Fragment() {
 
     private fun setupActions() {
         with(binding) {
-            releaseDateInputEditText.apply {
+            birthDateInputEditText.apply {
                 isFocusable = false
                 setOnClickListener {
                     val builder = MaterialDatePicker.Builder.datePicker()
                     builder.setTitleText("Selecciona fecha")
 
-                    if (releaseDateInputEditText.text?.toString()?.isNotEmpty() == true) {
+                    if (birthDateInputEditText.text?.toString()?.isNotEmpty() == true) {
                         try {
                             val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                             dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-                            val parsedDate = dateFormat.parse(releaseDateInputEditText.text.toString())
+                            val parsedDate = dateFormat.parse(birthDateInputEditText.text.toString())
                             parsedDate?.let { builder.setSelection(it.time) }
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -87,32 +87,32 @@ class CreateAlbumFragment: Fragment() {
                         val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                         dateFormat.timeZone = TimeZone.getTimeZone("UTC")
                         val formattedDate = dateFormat.format(Date(selection))
-                        releaseDateInputEditText.setText(formattedDate)
+                        birthDateInputEditText.setText(formattedDate)
                     }
                     datePicker.addOnNegativeButtonClickListener {
-                        releaseDateInputEditText.clearFocus()
+                        birthDateInputEditText.clearFocus()
                     }
                     datePicker.addOnDismissListener {
-                        releaseDateInputEditText.clearFocus()
+                        birthDateInputEditText.clearFocus()
                     }
 
                     datePicker.show(parentFragmentManager, "DATE_PICKER")
                 }
             }
 
-            urlCoverTextView.editText?.doOnTextChanged { text, _, _, _ ->
+            urlImageTextView.editText?.doOnTextChanged { text, _, _, _ ->
                 val url = text?.toString()?.trim()
                 if (!url.isNullOrEmpty() && Patterns.WEB_URL.matcher(url).matches()) {
-                    urlCoverTextView.error = null
-                    coverPreviewImageView.visibility = View.VISIBLE
-                    coverPreviewImageView.load(url) {
+                    urlImageTextView.error = null
+                    imagePreviewImageView.visibility = View.VISIBLE
+                    imagePreviewImageView.load(url) {
                         placeholder(R.drawable.ic_launcher_foreground)
                         error(R.drawable.ic_launcher_foreground)
                     }
                 } else {
-                    urlCoverTextView.error = "Ingrese una URL válida"
-                    coverPreviewImageView.visibility = View.GONE
-                    coverPreviewImageView.setImageDrawable(null)
+                    urlImageTextView.error = "Ingrese una URL válida"
+                    imagePreviewImageView.visibility = View.GONE
+                    imagePreviewImageView.setImageDrawable(null)
                 }
             }
 
@@ -122,7 +122,7 @@ class CreateAlbumFragment: Fragment() {
 
             btnCrear.setOnClickListener {
                 if (isFormValid()) {
-                    createAlbum()
+                    createArtist()
                 }
             }
         }
@@ -134,11 +134,8 @@ class CreateAlbumFragment: Fragment() {
         with(binding) {
             val name = nombreTextView.editText?.text?.toString()?.trim()
             val description = descriptionTextField.editText?.text?.toString()?.trim()
-            val releaseDate = releaseDateTextView.editText?.text?.toString()?.trim()
-            val urlCover = urlCoverTextView.editText?.text?.toString()?.trim()
-            val genero = generoTextView.editText?.text?.toString()?.trim()
-            val disquera = disqueraTextView.editText?.text?.toString()?.trim()
-
+            val birthDate = birthDateTextView.editText?.text?.toString()?.trim()
+            val urlImage = urlImageTextView.editText?.text?.toString()?.trim()
 
             if (name.isNullOrEmpty()) {
                 nombreTextView.error = "El nombre es obligatorio"
@@ -154,32 +151,18 @@ class CreateAlbumFragment: Fragment() {
                 descriptionTextField.error = null
             }
 
-            if (releaseDate.isNullOrEmpty()) {
-                releaseDateTextView.error = "La fecha de lanzamiento es obligatoria"
+            if (birthDate.isNullOrEmpty()) {
+                birthDateTextView.error = "La fecha de nacimiento es obligatoria"
                 isValid = false
             } else {
-                releaseDateTextView.error = null
+                birthDateTextView.error = null
             }
 
-            if (urlCover.isNullOrEmpty() || !Patterns.WEB_URL.matcher(urlCover).matches()) {
-                urlCoverTextView.error = "Ingrese una URL válida"
+            if (urlImage.isNullOrEmpty() || !Patterns.WEB_URL.matcher(urlImage).matches()) {
+                urlImageTextView.error = "Ingrese una URL válida"
                 isValid = false
             } else {
-                urlCoverTextView.error = null
-            }
-
-            if (genero.isNullOrEmpty()) {
-                generoTextView.error = "El género es obligatorio"
-                isValid = false
-            } else {
-                generoTextView.error = null
-            }
-
-            if (disquera.isNullOrEmpty()) {
-                disqueraTextView.error = "La disquera es obligatoria"
-                isValid = false
-            } else {
-                disqueraTextView.error = null
+                urlImageTextView.error = null
             }
         }
 
@@ -190,36 +173,30 @@ class CreateAlbumFragment: Fragment() {
         with(binding) {
             nombreTextView.editText?.setText("")
             descriptionTextField.editText?.setText("")
-            releaseDateTextView.editText?.setText("")
-            urlCoverTextView.editText?.setText("")
-            generoTextView.editText?.setText("")
-            disqueraTextView.editText?.setText("")
-            coverPreviewImageView.visibility = View.GONE
-            coverPreviewImageView.setImageDrawable(null)
+            birthDateTextView.editText?.setText("")
+            urlImageTextView.editText?.setText("")
+            imagePreviewImageView.visibility = View.GONE
+            imagePreviewImageView.setImageDrawable(null)
         }
     }
 
-    private fun createAlbum() {
+    private fun createArtist() {
         with(binding) {
             val name = nombreTextView.editText?.text?.toString()?.trim() ?: ""
             val description = descriptionTextField.editText?.text?.toString()?.trim() ?: ""
-            val releaseDate = releaseDateTextView.editText?.text?.toString()?.trim() ?: ""
-            val urlCover = urlCoverTextView.editText?.text?.toString()?.trim() ?: ""
-            val genre = generoTextView.editText?.text?.toString()?.trim() ?: ""
-            val recordLabel = disqueraTextView.editText?.text?.toString()?.trim() ?: ""
+            val birthDate = birthDateTextView.editText?.text?.toString()?.trim() ?: ""
+            val urlImage = urlImageTextView.editText?.text?.toString()?.trim() ?: ""
 
             scrollView.visibility = View.GONE
             loadingPanel.root.visibility = View.VISIBLE
             loadingPanel.message.text = getString(R.string.creando_artistas)
 
-            viewModel.createAlbum(
-                RequestAlbum(
+            viewModel.createArtist(
+                RequestArtist(
                     name = name,
-                    cover = urlCover,
-                    releaseDate = releaseDate.toIso8601UtcFromDdMMyyyy(),
+                    image = urlImage,
                     description = description,
-                    genre = genre,
-                    recordLabel = recordLabel
+                    birthDate = birthDate.toIso8601UtcFromDdMMyyyy()
                 )
             )
         }

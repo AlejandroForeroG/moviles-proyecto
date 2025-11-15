@@ -1,6 +1,7 @@
 package com.proyecto.uniandes.vynils.data.network
 
 import com.proyecto.uniandes.vynils.data.model.RequestAlbum
+import com.proyecto.uniandes.vynils.data.model.RequestArtist
 import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.data.model.ResponseArtist
 import retrofit2.Response
@@ -21,4 +22,7 @@ interface VinylApiService {
 
     @GET("/musicians")
     suspend fun getAllArtist(): Response<List<ResponseArtist>>
+
+    @POST("/musicians")
+    suspend fun createArtist(@Body artist: RequestArtist): Response<ResponseArtist>
 }

@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.domain.usecase.album.GetAlbumByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,13 +21,15 @@ class AlbumDetailViewModel @Inject constructor(private val getAlbumByIdUseCase: 
 
     fun getAlbumById(albumId: Int) {
         viewModelScope.launch {
-            val result = getAlbumByIdUseCase(albumId)
-            result.fold(onSuccess = { album ->
-                _selectedAlbum.postValue(album)
-                Log.d("AlbumViewModel", "Album loaded: ${album.name}")
-            }, onFailure = { ex ->
-                Log.e("AlbumViewModel", "Error loading album with id $albumId", ex)
-            })
+            withContext(Dispatchers.IO) {
+                val result = getAlbumByIdUseCase(albumId)
+                result?.let {
+                    _selectedAlbum.postValue(it)
+                    Log.d("AlbumViewModel", "Album loaded: ${it.name}")
+                } ?: run {
+                    Log.e("AlbumViewModel", "Album with id $albumId not found")
+                }
+            }
         }
     }
 
