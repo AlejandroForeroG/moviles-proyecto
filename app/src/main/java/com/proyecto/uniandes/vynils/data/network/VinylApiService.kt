@@ -23,6 +23,9 @@ interface VinylApiService {
     @GET("/musicians")
     suspend fun getAllArtist(): Response<List<ResponseArtist>>
 
+    @GET("/musicians/{id}")
+    suspend fun getArtistById(@Path("id") id: Int): Response<ResponseArtist>
+
     @POST("/musicians")
     suspend fun createArtist(@Body artist: RequestArtist): Response<ResponseArtist>
 }
