@@ -9,6 +9,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 import javax.inject.Singleton
 
@@ -20,9 +22,27 @@ import javax.inject.Singleton
 
 object FakeBindAPI {
     private val artists = mutableListOf(
-        ResponseArtist(id = 1, name = "Shakira", image = "https://example.com/shakira.jpg"),
-        ResponseArtist(id = 2, name = "Juanes", image = "https://example.com/juanes.jpg"),
-        ResponseArtist(id = 3, name = "Carlos Vives", image = "https://example.com/carlosvives.jpg")
+        ResponseArtist(
+            id = 1,
+            name = "Shakira",
+            image = "https://example.com/shakira.jpg",
+            description = "Cantante y compositora colombiana",
+            birthDate = "1977-02-02"
+        ),
+        ResponseArtist(
+            id = 2,
+            name = "Juanes",
+            image = "https://example.com/juanes.jpg",
+            description = "Músico y cantautor colombiano",
+            birthDate = "1972-08-09"
+        ),
+        ResponseArtist(
+            id = 3,
+            name = "Carlos Vives",
+            image = "https://example.com/carlosvives.jpg",
+            description = "Cantante, compositor y actor colombiano",
+            birthDate = "1961-08-07"
+        )
     )
     private val albums = mutableListOf(
         ResponseAlbum(
@@ -83,8 +103,7 @@ object FakeBindAPI {
                 return if (album != null) {
                     Response.success(album)
                 } else {
-                    val body = okhttp3.ResponseBody.create(null, "")
-                    Response.error(404, body)
+                    Response.error(404, "".toResponseBody("application/json".toMediaTypeOrNull()))
                 }
             }
 
@@ -92,11 +111,22 @@ object FakeBindAPI {
                 return Response.success(artists.toList())
             }
 
+            override suspend fun getArtistById(id: Int): Response<ResponseArtist> {
+                val artist = artists.find { it.id == id }
+                return if (artist != null) {
+                    Response.success(artist)
+                } else {
+                    Response.error(404, "".toResponseBody("application/json".toMediaTypeOrNull()))
+                }
+            }
+
             override suspend fun createArtist(artist: RequestArtist): Response<ResponseArtist> {
                 val created = ResponseArtist(
                     id = nextId++,
                     name = artist.name,
-                    image = artist.image
+                    image = artist.image,
+                    description = artist.description,
+                    birthDate = artist.birthDate
                 )
                 artists.add(created)
                 return Response.success(created)

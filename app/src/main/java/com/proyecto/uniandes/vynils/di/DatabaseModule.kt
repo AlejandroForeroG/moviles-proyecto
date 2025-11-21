@@ -35,6 +35,22 @@ object DatabaseModule {
         }
     }
 
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(db: SupportSQLiteDatabase) {
+            db.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS `artists` (
+                `id` INTEGER PRIMARY KEY NOT NULL,
+                `name` TEXT NOT NULL,
+                `image` TEXT NOT NULL,
+                `description` TEXT NOT NULL,
+                `birthDate` TEXT NOT NULL
+            )
+            """.trimIndent()
+            )
+        }
+    }
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): VynilsDatabase {
@@ -43,7 +59,7 @@ object DatabaseModule {
             VynilsDatabase::class.java,
             "vynils_database"
         )
-            .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
             .build()
     }
 
@@ -54,4 +70,7 @@ object DatabaseModule {
 
     @Provides
     fun provideAlbumDao(database: VynilsDatabase) = database.albumDao()
+
+    @Provides
+    fun provideArtistDao(database: VynilsDatabase) = database.artistDao()
 }
