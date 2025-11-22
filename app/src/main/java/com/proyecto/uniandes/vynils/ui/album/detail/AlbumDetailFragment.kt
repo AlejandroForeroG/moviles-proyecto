@@ -11,7 +11,10 @@ import com.proyecto.uniandes.vynils.databinding.FragmentAlbumDetailBinding
 import coil.load
 import dagger.hilt.android.AndroidEntryPoint
 import com.proyecto.uniandes.vynils.R
+import com.proyecto.uniandes.vynils.data.model.RequestComment
+import com.proyecto.uniandes.vynils.ui.comment.view.CommentAdapter
 import com.proyecto.uniandes.vynils.utils.toShortDate
+import kotlin.text.clear
 
 @AndroidEntryPoint
 class AlbumDetailFragment : Fragment() {
@@ -19,6 +22,7 @@ class AlbumDetailFragment : Fragment() {
     private lateinit var binding: FragmentAlbumDetailBinding
     private val viewModel: AlbumDetailViewModel by viewModels()
     private val args: AlbumDetailFragmentArgs by navArgs()
+    private lateinit var commentAdapter: CommentAdapter
 
 
     override fun onCreateView(
@@ -44,6 +48,13 @@ class AlbumDetailFragment : Fragment() {
             loadingPanel.message.text = getString(R.string.cargando_detalles_del_album)
             nsvContent.visibility = View.GONE
             loadingPanel.root.visibility = View.VISIBLE
+
+            commentAdapter = CommentAdapter()
+            rvComments.adapter = commentAdapter
+
+            btnSubmitComment.setOnClickListener {
+                createComment()
+            }
         }
     }
 
@@ -63,6 +74,53 @@ class AlbumDetailFragment : Fragment() {
                     error(R.drawable.ic_launcher_foreground)
                 }
             }
+            viewModel.getComments(album.id)
+        }
+
+        viewModel.comments.observe(viewLifecycleOwner) { comments ->
+            commentAdapter.submitList(comments)
+        }
+
+        viewModel.addCommentSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                cleanCommentForm()
+
+                android.widget.Toast.makeText(
+                    requireContext(),
+                    "Comentario agregado exitosamente",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                android.widget.Toast.makeText(
+                    requireContext(),
+                    "Error al agregar comentario",
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun cleanCommentForm(){
+        with(binding){
+            etComment.setText("")
+            rbRating.rating = 0f
+        }
+    }
+
+    private fun createComment(){
+        with(binding){
+            val albumId = viewModel.selectedAlbum.value?.id
+            val commentDescription = etComment.text?.toString()?.trim() ?: ""
+            val rating = rbRating.rating.toInt()
+
+            viewModel.addComment(
+                albumId = albumId ?: 0,
+                RequestComment(
+                    description = commentDescription,
+                    rating = rating,
+                    collector = mapOf("id" to 101)
+                )
+            )
         }
     }
 }

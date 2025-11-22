@@ -42,4 +42,9 @@
     <string name="url_de_la_imagen_del_artista">Url de la imagen del artista</string>
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="image_preview">Image Preview</string>
+    <string name="comments">Comentarios</string>
+    <string name="comment_hint">Comentario...</string>
+    <string name="submit">Enviar</string>
+    <string name="username">Usuario</string>
+    <string name="example_comment">Este es un comentario de ejemplo</string>
 </resources>
