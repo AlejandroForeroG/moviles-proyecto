@@ -2,8 +2,10 @@ package com.proyecto.uniandes.vynils.di
 
 import com.proyecto.uniandes.vynils.data.model.RequestAlbum
 import com.proyecto.uniandes.vynils.data.model.RequestArtist
+import com.proyecto.uniandes.vynils.data.model.RequestComment
 import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.data.model.ResponseArtist
+import com.proyecto.uniandes.vynils.data.model.ResponseComment
 import com.proyecto.uniandes.vynils.data.network.VinylApiService
 import dagger.Module
 import dagger.Provides
@@ -20,6 +22,8 @@ import javax.inject.Singleton
     replaces = [NetworkModule::class]
 )
 object FakeBindAPI {
+    private val comments = mutableListOf<ResponseComment>()
+
     private val artists = mutableListOf(
         ResponseArtist(
             id = 1,
@@ -129,6 +133,20 @@ object FakeBindAPI {
                 )
                 artists.add(created)
                 return Response.success(created)
+            }
+
+            override suspend fun createComment(albumId: Int, comment: RequestComment): Response<ResponseComment> {
+                val createdComment = ResponseComment(
+                    id = nextId++,
+                    description = comment.description,
+                    rating = comment.rating.toInt()
+                )
+                comments.add(createdComment)
+                return Response.success(createdComment)
+            }
+
+            override suspend fun getAlbumComments(albumId: Int): Response<List<ResponseComment>> {
+                return Response.success(comments.toList())
             }
 
         }
