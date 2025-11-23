@@ -42,4 +42,15 @@
     <string name="url_de_la_imagen_del_artista">Url de la imagen del artista</string>
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="image_preview">Image Preview</string>
+    <string name="comments">Comentarios</string>
+    <string name="comment_hint">Comentario...</string>
+    <string name="submit">Enviar</string>
+    <string name="username">Usuario</string>
+    <string name="example_comment">Este es un comentario de ejemplo</string>
+    <string name="artist_image">Artist Image</string>
+    <string name="artist_name">Nombre del artista</string>
+    <string name="birth_date">Fecha de nacimiento</string>
+    <string name="asociar_album">Asociar álbum</string>
+    <string name="biografia">Biografía</string>
+    <string name="cargando_detalles_del_artista">Cargando detalles del artista…</string>
 </resources>
