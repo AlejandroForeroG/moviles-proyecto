@@ -66,7 +66,12 @@ class ArtistFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        artistAdapter = ArtistAdapter {}
+        artistAdapter = ArtistAdapter { artist ->
+            artist.id?.let { id ->
+                val action = ArtistFragmentDirections.actionNavigationArtistToArtistDetailFragment(id)
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(action)
+            }
+        }
 
         binding.rvArtists.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
