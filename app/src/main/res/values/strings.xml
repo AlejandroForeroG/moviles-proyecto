@@ -53,4 +53,9 @@
     <string name="asociar_album">Asociar álbum</string>
     <string name="biografia">Biografía</string>
     <string name="cargando_detalles_del_artista">Cargando detalles del artista…</string>
+    <string name="seleccione_album">Seleccione Album</string>
+    <string name="asociar">Asociar</string>
+    <string name="albumes_asociados">Albumes asociados\n</string>
+    <string name="no_albums_associated">No albumes asociados</string>
+    <string name="album_associated_successfully">Album añadido satisfactoriamente</string>
 </resources>
