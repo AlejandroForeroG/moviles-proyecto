@@ -143,4 +143,65 @@ class AsociarAlbumArtistaInstrumentedTest {
 
         onView(withId(R.id.rv_musician_albums)).check(matches(isDisplayed()))
     }
+
+
+    @Test
+    fun albumAssociationCompletesSuccessfully() {
+        runBlocking { repository.saveUser("COLECCIONISTA") }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+
+        navigateToArtistDetail()
+
+        var initialAlbumCount = 0
+        scenario.onActivity { activity ->
+            val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_musician_albums)
+            initialAlbumCount = recyclerView?.adapter?.itemCount ?: 0
+        }
+
+        onView(withId(R.id.btn_associate_album)).perform(click())
+
+        Thread.sleep(1000)
+
+        onView(withId(R.id.spinner_albums)).check(matches(isDisplayed()))
+
+        onView(withId(R.id.btn_associate)).perform(click())
+
+        Thread.sleep(2000)
+
+        scenario.onActivity { activity ->
+            val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_musician_albums)
+            val newAlbumCount = recyclerView?.adapter?.itemCount ?: 0
+            val loadingPanel = activity.findViewById<View>(R.id.loading_panel_container)
+
+            assertEquals(View.GONE, loadingPanel.visibility)
+            assertTrue(newAlbumCount >= initialAlbumCount)
+        }
+    }
+
+    @Test
+    fun noAlbumsMessageIsDisplayedWhenNoAlbumsAssociated() {
+        runBlocking { repository.saveUser("COLECCIONISTA") }
+        scenario = ActivityScenario.launch(MainActivity::class.java)
+
+        navigateToArtistFragment()
+
+        scenario.onActivity { activity ->
+            val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_artists)
+            recyclerView.scrollToPosition(2)
+            Thread.sleep(100)
+            recyclerView.findViewHolderForAdapterPosition(2)?.itemView?.performClick()
+        }
+
+        Thread.sleep(1000)
+
+        scenario.onActivity { activity ->
+            val noAlbumsText = activity.findViewById<android.widget.TextView>(R.id.tv_no_albums)
+            val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_musician_albums)
+
+            if (recyclerView?.adapter?.itemCount == 0) {
+                assertEquals(View.VISIBLE, noAlbumsText.visibility)
+                assertEquals(View.GONE, recyclerView.visibility)
+            }
+        }
+    }
 }

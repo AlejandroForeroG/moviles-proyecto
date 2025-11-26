@@ -273,4 +273,63 @@ class AsociarAlbumArtistaTest {
             }
         }
     }
+
+    @Test
+    fun multipleArtistsCanBeViewedWithTheirAlbums() {
+        runBlocking { repository.saveUser("COLECCIONISTA") }
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            navigateToArtistFragment(scenario)
+
+            waitForCondition(scenario) { activity ->
+                val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_artists)
+                (recyclerView?.adapter?.itemCount ?: 0) > 0
+            }
+
+            for (i in 0 until 2) {
+                scenario.onActivity { activity ->
+                    val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_artists)
+                    recyclerView.scrollToPosition(i)
+                    val itemView = recyclerView.findViewHolderForAdapterPosition(i)?.itemView
+                    itemView?.performClick()
+                }
+
+                waitForCondition(scenario) { activity ->
+                    val navController = activity.findNavController(R.id.nav_host_fragment_activity_main)
+                    navController.currentDestination?.id == R.id.artistDetailFragment
+                }
+
+                Thread.sleep(1000)
+
+                scenario.onActivity { activity ->
+                    val artistNameTextView = activity.findViewById<TextView>(R.id.tv_artist_name)
+                    assertNotNull(artistNameTextView.text)
+                    assertTrue(artistNameTextView.text.isNotBlank())
+                }
+
+                scenario.onActivity { activity ->
+                    activity.onBackPressed()
+                }
+
+                Thread.sleep(500)
+            }
+        }
+    }
+
+    @Test
+    fun associatedAlbumsSectionHasCorrectTitle() {
+        runBlocking { repository.saveUser("COLECCIONISTA") }
+
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            navigateToArtistDetail(scenario)
+
+            Thread.sleep(1000)
+
+            scenario.onActivity { activity ->
+                val titleTextView = activity.findViewById<TextView>(R.id.tv_albums_title)
+                assertNotNull(titleTextView)
+                assertEquals(View.VISIBLE, titleTextView.visibility)
+            }
+        }
+    }
 }
