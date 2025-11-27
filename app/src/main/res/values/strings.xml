@@ -43,7 +43,7 @@
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="image_preview">Image Preview</string>
     <string name="comments">Comentarios</string>
-    <string name="comment_hint">Comentario...</string>
+    <string name="comment_hint">Comentario…</string>
     <string name="submit">Enviar</string>
     <string name="username">Usuario</string>
     <string name="example_comment">Este es un comentario de ejemplo</string>
@@ -58,4 +58,5 @@
     <string name="albumes_asociados">Albumes asociados\n</string>
     <string name="no_albums_associated">No albumes asociados</string>
     <string name="album_associated_successfully">Album añadido satisfactoriamente</string>
+    <string name="usuario_comment">Usuario</string>
 </resources>
