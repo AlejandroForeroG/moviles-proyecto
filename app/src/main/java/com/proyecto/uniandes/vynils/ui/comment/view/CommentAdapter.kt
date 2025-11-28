@@ -22,12 +22,10 @@ class CommentAdapter: ListAdapter<ResponseComment, CommentAdapter.ViewHolder>(Di
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvCollectorName: TextView = itemView.findViewById(R.id.tv_collector_name)
         private val tvRating: RatingBar = itemView.findViewById(R.id.tv_rating)
         private val tvDescription: TextView = itemView.findViewById(R.id.tv_commentdescription)
 
         fun bind(comment: ResponseComment) {
-            tvCollectorName.text = "Usuario"
             tvRating.rating= comment.rating.toFloat()
             tvDescription.text = comment.description
         }

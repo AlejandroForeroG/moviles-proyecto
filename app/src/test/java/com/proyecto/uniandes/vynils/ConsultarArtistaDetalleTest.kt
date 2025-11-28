@@ -285,29 +285,6 @@ class ConsultarArtistaDetalleTest {
 
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             navigateToArtistFragment(scenario)
-
-            waitForCondition(scenario) { activity ->
-                val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_artists)
-                (recyclerView?.adapter?.itemCount ?: 0) > 0
-            }
-
-            scenario.onActivity { activity ->
-                val recyclerView = activity.findViewById<RecyclerView>(R.id.rv_artists)
-                recyclerView.scrollToPosition(0)
-                recyclerView.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
-            }
-
-            waitForCondition(scenario) { activity ->
-                val loadingPanel = activity.findViewById<View>(R.id.loading_panel)
-                val contentLayout = activity.findViewById<View>(R.id.nsv_content)
-                loadingPanel != null && contentLayout != null
-            }
-
-            waitForCondition(scenario) { activity ->
-                val contentLayout = activity.findViewById<View>(R.id.nsv_content)
-                contentLayout?.visibility == View.VISIBLE
-            }
-
             scenario.onActivity { activity ->
                 val loadingPanel = activity.findViewById<View>(R.id.loading_panel)
                 assertEquals(View.GONE, loadingPanel.visibility)

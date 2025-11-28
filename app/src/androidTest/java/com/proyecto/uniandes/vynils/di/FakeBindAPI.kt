@@ -1,6 +1,5 @@
 package com.proyecto.uniandes.vynils.di
 
-import androidx.fragment.app.add
 import com.proyecto.uniandes.vynils.data.model.RequestAlbum
 import com.proyecto.uniandes.vynils.data.model.RequestArtist
 import com.proyecto.uniandes.vynils.data.model.RequestComment
@@ -22,7 +21,6 @@ import javax.inject.Singleton
     components = [SingletonComponent::class],
     replaces = [NetworkModule::class]
 )
-
 object FakeBindAPI {
     private val comments = mutableListOf<ResponseComment>()
 
@@ -77,6 +75,12 @@ object FakeBindAPI {
             genre = "Rock",
             recordLabel = "EMI"
         )
+    )
+
+    private val artistAlbums = mutableMapOf<Int, MutableList<Int>>(
+        1 to mutableListOf(1),
+        2 to mutableListOf(),
+        3 to mutableListOf()
     )
 
     private var nextId = 4
@@ -149,6 +153,25 @@ object FakeBindAPI {
 
             override suspend fun getAlbumComments(albumId: Int): Response<List<ResponseComment>> {
                 return Response.success(comments.toList())
+            }
+
+            override suspend fun getArtistAlbums(musicianId: Int): Response<List<ResponseAlbum>> {
+                val albumIds = artistAlbums[musicianId] ?: emptyList()
+                val associatedAlbums = albums.filter { it.id in albumIds }
+                return Response.success(associatedAlbums)
+            }
+
+            override suspend fun associateAlbumToArtist(musicianId: Int, albumId: Int): Response<ResponseAlbum> {
+                val album = albums.find { it.id == albumId }
+                return if (album != null && artists.any { it.id == musicianId }) {
+                    val albumList = artistAlbums.getOrPut(musicianId) { mutableListOf() }
+                    if (!albumList.contains(albumId)) {
+                        albumList.add(albumId)
+                    }
+                    Response.success(album)
+                } else {
+                    Response.error(404, "".toResponseBody("application/json".toMediaTypeOrNull()))
+                }
             }
         }
     }

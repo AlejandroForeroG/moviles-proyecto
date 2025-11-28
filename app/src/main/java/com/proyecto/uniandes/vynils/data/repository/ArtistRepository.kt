@@ -3,6 +3,7 @@ package com.proyecto.uniandes.vynils.data.repository
 import com.proyecto.uniandes.vynils.data.local.dao.ArtistDao
 import com.proyecto.uniandes.vynils.data.local.entity.ArtistEntity
 import com.proyecto.uniandes.vynils.data.model.RequestArtist
+import com.proyecto.uniandes.vynils.data.model.ResponseAlbum
 import com.proyecto.uniandes.vynils.data.model.ResponseArtist
 import com.proyecto.uniandes.vynils.data.network.VinylApiService
 import com.proyecto.uniandes.vynils.data.network.safeApiCall
@@ -44,5 +45,13 @@ open class ArtistRepository @Inject constructor(
 
     open suspend fun createArtist(artist: RequestArtist): Result<ResponseArtist> = safeApiCall {
         api.createArtist(artist)
+    }
+
+    open suspend fun getArtistAlbums(musicianId: Int): Result<List<ResponseAlbum>> = safeApiCall {
+        api.getArtistAlbums(musicianId)
+    }
+
+    open suspend fun associateAlbumToArtist(musicianId: Int, albumId: Int): Result<ResponseAlbum> = safeApiCall {
+        api.associateAlbumToArtist(musicianId, albumId)
     }
 }

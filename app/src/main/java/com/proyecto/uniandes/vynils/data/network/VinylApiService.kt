@@ -9,6 +9,8 @@ import com.proyecto.uniandes.vynils.data.model.ResponseComment
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+
+
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -36,4 +38,13 @@ interface VinylApiService {
 
     @POST("/albums/{albumId}/comments")
     suspend fun createComment(@Path("albumId") albumId: Int, @Body comment: RequestComment): Response<ResponseComment>
+
+    @GET("/musicians/{musicianId}/albums")
+    suspend fun getArtistAlbums(@Path("musicianId") musicianId: Int): Response<List<ResponseAlbum>>
+
+    @POST("/musicians/{musicianId}/albums/{albumId}")
+    suspend fun associateAlbumToArtist(
+        @Path("musicianId") musicianId: Int,
+        @Path("albumId") albumId: Int
+    ): Response<ResponseAlbum>
 }
