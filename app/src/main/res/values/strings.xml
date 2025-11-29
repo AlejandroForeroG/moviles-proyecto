@@ -58,5 +58,4 @@
     <string name="albumes_asociados">Albumes asociados\n</string>
     <string name="no_albums_associated">No albumes asociados</string>
     <string name="album_associated_successfully">Album añadido satisfactoriamente</string>
-    <string name="usuario_comment">Usuario</string>
 </resources>
