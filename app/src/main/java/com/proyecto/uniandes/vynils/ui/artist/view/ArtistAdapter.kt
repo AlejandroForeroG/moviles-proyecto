@@ -29,6 +29,7 @@ class ArtistAdapter(private val onClick: ((ResponseArtist) -> Unit)? = null) : L
 
         fun bind(album: ResponseArtist) {
             tvName.text = album.name
+            imgCover.contentDescription = album.name
             imgCover.load(album.image) {
                 placeholder(R.drawable.ic_launcher_foreground)
                 error(R.drawable.ic_launcher_foreground)

@@ -86,10 +86,10 @@ class AlbumFragment : Fragment() {
     private fun validateUser(user: UserEntity) {
         when(user.userType) {
             "USUARIO" -> {
-                binding.fabAddAlbum.hide()
+                binding.fabAddAlbum.visibility = View.GONE
             }
             "COLECCIONISTA" -> {
-                binding.fabAddAlbum.show()
+                binding.fabAddAlbum.visibility = View.VISIBLE
             }
             else -> { }
         }

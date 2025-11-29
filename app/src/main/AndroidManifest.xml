@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Vynils">
+        android:theme="@style/Theme.Material3Expressive.DynamicColors.Light">
         <activity android:name=".ui.user.UserActivity"
             android:exported="true">
             <intent-filter>

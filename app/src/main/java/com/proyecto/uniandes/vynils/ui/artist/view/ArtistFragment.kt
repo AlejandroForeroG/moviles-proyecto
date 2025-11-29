@@ -83,10 +83,10 @@ class ArtistFragment : Fragment() {
     private fun validateUser(user: UserEntity) {
         when(user.userType) {
             "USUARIO" -> {
-                binding.fabAddArtist.hide()
+                binding.fabAddArtist.visibility = View.GONE
             }
             "COLECCIONISTA" -> {
-                binding.fabAddArtist.show()
+                binding.fabAddArtist.visibility = View.VISIBLE
             }
             else -> { }
         }

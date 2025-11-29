@@ -54,10 +54,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="#5A5F73"
                 android:hint="@string/nombre">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nombreEditText"
+                    android:textColor="#5A5F73"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -73,6 +75,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/urlCoverEditText"
                     android:layout_width="match_parent"
+                    android:textColor="#5A5F73"
                     android:layout_height="wrap_content"
                     android:inputType="textUri" />
 
@@ -90,6 +93,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/releaseDateInputEditText"
+                    android:textColor="#5A5F73"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -111,6 +115,7 @@
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="8"
                     android:minLines="4"
+                    android:textColor="#5A5F73"
                     android:scrollbars="vertical"/>
 
             </com.google.android.material.textfield.TextInputLayout>

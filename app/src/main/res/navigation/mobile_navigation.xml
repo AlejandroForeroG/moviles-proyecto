@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/navigation_album"
         android:name="com.proyecto.uniandes.vynils.ui.album.view.AlbumFragment"
-        android:label="@string/title_album"
+        android:label="Álbumes"
         tools:layout="@layout/fragment_album">
         <action
             android:id="@+id/action_navigation_album_to_createAlbumFragment"
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/navigation_artist"
         android:name="com.proyecto.uniandes.vynils.ui.artist.view.ArtistFragment"
-        android:label="@string/title_artist"
+        android:label="Artistas"
         tools:layout="@layout/fragment_artist">
 
         <action

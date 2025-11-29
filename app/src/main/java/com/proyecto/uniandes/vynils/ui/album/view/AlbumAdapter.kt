@@ -30,11 +30,11 @@ class AlbumAdapter(private val onClick: ((ResponseAlbum) -> Unit)? = null) : Lis
 
         fun bind(album: ResponseAlbum) {
             tvName.text = album.name
+            imgCover.contentDescription = album.name
             imgCover.load(album.cover) {
                 placeholder(R.drawable.ic_launcher_foreground)
                 error(R.drawable.ic_launcher_foreground)
                 memoryCachePolicy(CachePolicy.ENABLED)
-
             }
 
             itemView.setOnClickListener {
